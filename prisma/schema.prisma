@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  cognome      String
+  email        String   @unique
+  num_telefono String   @unique
+  last_code    String?  // codice temporaneo per verifica identità
+  expire_time  DateTime? // scadenza codice
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relazioni
+  orders       Order[]
+}
+
+
+model Product {
+  id          Int      @id @default(autoincrement()) // puoi anche usare SKU come stringa unica
+  SKU         String   @unique
+  nome        String
+  descrizione String?
+  prezzo      Float
+  quantita    Int      @default(0)
+
+  orderLists  OrderList[]
+}
+
+model Status {
+  id          Int      @id @default(autoincrement())
+  descrizione String   @unique
+
+  orders      Order[]
+}
+
+model Order {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  spedizione     String
+  costo          Float
+  data_partenza  DateTime
+  data_consegna  DateTime?
+  statusId       Int
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Relazioni
+  user           User      @relation(fields: [userId], references: [id])
+  status         Status    @relation(fields: [statusId], references: [id])
+  orderLists     OrderList[]
+}
+
+
+model OrderList {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  costo     Float
+  quantita  Int
+
+  // Relazioni
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}

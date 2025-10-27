@@ -1,0 +1,6 @@
+[
+  { "type": "auth", "phone": "+391234567890" },
+  { "type": "auth2", "phone": "+391234567890", "code": "123456" },
+  { "type": "ordineStatus", "userId": 1, "orderId": 55 },
+  { "type": "ordineSummary", "userId": 1, "orderId": 55 }
+]
