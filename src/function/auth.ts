@@ -21,7 +21,8 @@ export async function auth(phone: string) {
     where: { id: user.id },
     data: { last_code: code, expire_time: expireTime },
   });
-  console.log("Codice generato:", code);
+  // DA SCOMMENTARE DURANTE I TEST
+  // console.log("Codice generato:", code);
 
   // invio mail
   try {
@@ -42,10 +43,10 @@ export async function auth(phone: string) {
       text: `Gentile Cliente ${user.nome}, il tuo codice di verifica è: ${code}`,
     });
 
-    console.log("Mail inviata con ID:", info.messageId);
+    console.log("La mail è stata inviata");
   } catch (err) {
     console.error("Errore invio mail:", err);
   }
 
-  return { message: "Codice generato e invio mail tentato" };
+  return { message: "Codice generato" };
 }
