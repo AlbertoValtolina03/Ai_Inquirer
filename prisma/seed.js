@@ -6,26 +6,26 @@ async function main() {
 
   console.log("Inserisco i nuovi dati");
   const utenti = [
-    { nome: "Alberto", cognome: "Valtolina", email: "alberto.valtolina0@gmail.com", num_telefono: "+393275305689" },
-    { nome: "Giulia", cognome: "Bianchi", email: "giulia.bianchi@yahoo.it", num_telefono: "+393402223344" },
-    { nome: "Marco", cognome: "Verdi", email: "marco.verdi@gmail.com", num_telefono: "+393403334455" },
-    { nome: "Sara", cognome: "Neri", email: "sara.neri@hotmail.com", num_telefono: "+393404445566" },
-    { nome: "Alessandro", cognome: "Romano", email: "alessandro.romano@gmail.com", num_telefono: "+393405556677" },
-    { nome: "Elena", cognome: "Gallo", email: "elena.gallo@gmail.com", num_telefono: "+393406667788" },
-    { nome: "Davide", cognome: "Moretti", email: "davide.moretti@gmail.com", num_telefono: "+393407778899" },
-    { nome: "Chiara", cognome: "Greco", email: "chiara.greco@gmail.com", num_telefono: "+393408889900" },
-    { nome: "Francesco", cognome: "Conti", email: "francesco.conti@gmail.com", num_telefono: "+393409991122" },
-    { nome: "Martina", cognome: "Lombardi", email: "martina.lombardi@gmail.com", num_telefono: "+393410001133" },
-    { nome: "Andrea", cognome: "Ricci", email: "andrea.ricci@gmail.com", num_telefono: "+393411112244" },
-    { nome: "Federica", cognome: "Barbieri", email: "federica.barbieri@gmail.com", num_telefono: "+393412223355" },
-    { nome: "Matteo", cognome: "De Luca", email: "matteo.deluca@gmail.com", num_telefono: "+393413334466" },
-    { nome: "Roberta", cognome: "Costa", email: "roberta.costa@gmail.com", num_telefono: "+393414445577" },
-    { nome: "Simone", cognome: "Giordano", email: "simone.giordano@gmail.com", num_telefono: "+393415556688" },
-    { nome: "Valentina", cognome: "Rizzi", email: "valentina.rizzi@gmail.com", num_telefono: "+393416667799" },
-    { nome: "Emanuele", cognome: "Marino", email: "emanuele.marino@gmail.com", num_telefono: "+393417778800" },
-    { nome: "Laura", cognome: "Ferrari", email: "laura.ferrari@gmail.com", num_telefono: "+393418889911" },
-    { nome: "Paolo", cognome: "Fontana", email: "paolo.fontana@gmail.com", num_telefono: "+393419991122" },
-    { nome: "Silvia", cognome: "Gentile", email: "silvia.gentile@gmail.com", num_telefono: "+393420002233" }
+    { nome: "Alberto", cognome: "Valtolina", email: "alberto.valtolina0@gmail.com", num_telefono: "3275305690" },
+    { nome: "Giulia", cognome: "Bianchi", email: "giulia.bianchi@yahoo.it", num_telefono: "3402223344" },
+    { nome: "Marco", cognome: "Verdi", email: "marco.verdi@gmail.com", num_telefono: "3403334455" },
+    { nome: "Sara", cognome: "Neri", email: "sara.neri@hotmail.com", num_telefono: "3404445566" },
+    { nome: "Alessandro", cognome: "Romano", email: "alessandro.romano@gmail.com", num_telefono: "3405556677" },
+    { nome: "Elena", cognome: "Gallo", email: "elena.gallo@gmail.com", num_telefono: "3406667788" },
+    { nome: "Davide", cognome: "Moretti", email: "davide.moretti@gmail.com", num_telefono: "3407778899" },
+    { nome: "Chiara", cognome: "Greco", email: "chiara.greco@gmail.com", num_telefono: "3408889900" },
+    { nome: "Francesco", cognome: "Conti", email: "francesco.conti@gmail.com", num_telefono: "3409991122" },
+    { nome: "Martina", cognome: "Lombardi", email: "martina.lombardi@gmail.com", num_telefono: "3410001133" },
+    { nome: "Andrea", cognome: "Ricci", email: "andrea.ricci@gmail.com", num_telefono: "3411112244" },
+    { nome: "Federica", cognome: "Barbieri", email: "federica.barbieri@gmail.com", num_telefono: "3412223355" },
+    { nome: "Matteo", cognome: "De Luca", email: "matteo.deluca@gmail.com", num_telefono: "3413334466" },
+    { nome: "Roberta", cognome: "Costa", email: "roberta.costa@gmail.com", num_telefono: "3414445577" },
+    { nome: "Simone", cognome: "Giordano", email: "simone.giordano@gmail.com", num_telefono: "3415556688" },
+    { nome: "Valentina", cognome: "Rizzi", email: "valentina.rizzi@gmail.com", num_telefono: "3416667799" },
+    { nome: "Emanuele", cognome: "Marino", email: "emanuele.marino@gmail.com", num_telefono: "3417778800" },
+    { nome: "Laura", cognome: "Ferrari", email: "laura.ferrari@gmail.com", num_telefono: "3418889911" },
+    { nome: "Paolo", cognome: "Fontana", email: "paolo.fontana@gmail.com", num_telefono: "3419991122" },
+    { nome: "Silvia", cognome: "Gentile", email: "silvia.gentile@gmail.com", num_telefono: "3420002233" }
   ];
   await prisma.user.createMany({ data: utenti, skipDuplicates: true });
 
@@ -65,7 +65,7 @@ async function main() {
   await prisma.product.createMany({ data: prodotti, skipDuplicates: true });
 
   const ordini = [
-    { userId: 1, spedizione: "Via Roma 10, Milano", costo: 849.00, data_partenza: new Date("2025-01-02"), data_consegna: new Date("2025-01-04"), statusId: 4 },
+    { userId: 1, spedizione: "Via Roma 10, Milano", costo: 849.00, data_partenza: new Date("2025-01-02"), data_consegna: new Date("2025-01-04"), statusId: 3 },
     { userId: 2, spedizione: "Via Milano 25, Torino", costo: 459.00, data_partenza: new Date("2025-01-05"), data_consegna: new Date("2025-01-08"), statusId: 3 },
     { userId: 3, spedizione: "Corso Italia 12, Napoli", costo: 1349.00, data_partenza: new Date("2025-01-10"), data_consegna: new Date("2025-01-13"), statusId: 4 },
     { userId: 4, spedizione: "Via Garibaldi 33, Firenze", costo: 109.00, data_partenza: new Date("2025-01-15"), data_consegna: new Date("2025-01-17"), statusId: 5 },
