@@ -45,7 +45,6 @@ async function main() {
     }
     
 
-    
     let code = ""
     let count_checkCode = 0
     let user_id_volatile = 0
