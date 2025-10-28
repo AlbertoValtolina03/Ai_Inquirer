@@ -11,6 +11,32 @@ interface ReturnMessage {
   response: string | null;
 }
 
+/**
+ * Recupera tutti gli ordini correnti (non consegnati o cancellati) per un utente verificato tramite OTP.
+ *
+ * Flusso:
+ * 1. Verifica il codice OTP dell’utente con `auth2`.
+ * 2. Se il codice è valido, cerca tutti gli ordini attivi (`status.descrizione` non in ["CONSEGNATO", "CANCELLATO"]).
+ * 3. Include i dettagli dello status e dei prodotti presenti negli ordini.
+ * 4. Ordina i risultati per `data_partenza` decrescente.
+ * 5. Restituisce un oggetto `ReturnMessage` con esito e lista degli ordini.
+ *
+ * @param userId - ID dell’utente che richiede gli ordini.
+ * @param phone - Numero di telefono associato all’utente.
+ * @param code - Codice OTP inviato all’utente.
+ * @returns Promise<ReturnMessage<Order[]>> - Oggetto con esito e lista degli ordini trovati.
+ *
+ * @example
+ * ```ts
+ * const res = await ordiniCorrenti(1, "390123456789", "123456");
+ * if(res.status === "Success") {
+ *   console.log(res.response); // Lista ordini attivi
+ * } else {
+ *   console.log(res.message);
+ * }
+ * ```
+ */
+
 
 export async function ordiniCorrenti(userId: number, phone: string, code: string) {
 
@@ -62,3 +88,5 @@ export async function ordiniCorrenti(userId: number, phone: string, code: string
   }
 
 }
+
+

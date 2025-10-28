@@ -12,7 +12,6 @@ const opzioniFusoOrario = { timeZone: "Europe/Rome" };
 interface ReturnMessage {
   status: "Error" | "Success";
   message: string;
-  data: number | null;
 }
 
 /**
@@ -75,7 +74,6 @@ export async function auth(phone: string): Promise<ReturnMessage> {
       return {
         status: "Error",
         message: "No user with that phone number was found",
-        data: null
       };
 
     const code = String(Math.floor(100000 + Math.random() * 900000));
@@ -118,21 +116,18 @@ export async function auth(phone: string): Promise<ReturnMessage> {
         status: "Error",
         message:
           "We were unable to send you an email, check wether your email is correct or try later, might be a problem on our side",
-        data: null
       };
     }
 
     return {
       status: "Success",
       message: "Code generated successfully, check your email inbox",
-      data: user.id
     };
   } catch (err) {
     console.error("Errore generico", err);
     return {
       status: "Error",
       message: "We are having issues on our side, try later",
-      data: null
     };
   }
 }
