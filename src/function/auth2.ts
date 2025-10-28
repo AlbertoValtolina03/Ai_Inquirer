@@ -1,38 +1,52 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+// per fuso orario corretto
+const dataCorrente = new Date();
+const opzioniFusoOrario = { timeZone: "Europe/Rome" };
+
 //TODO: Dichiarare interface della risposta
+interface ReturnMessage {
+  status: "Error" | "Success";
+  message: string;
+  response: string | null;
+}
 
 //TODO: Descrizione TSDoc della funzione
-//TODO: Nell'interface, se first_access è true, il type deve essere Parlante, altrimenti boolean
 export async function auth2(phone: string, code: string, first_access = false) {
-  // Se l'utente esiste e si ha il permesso di accedere, ritorno true altrimenti false
   const user = await prisma.user.findUnique({
     where: {
       num_telefono: phone,
       last_code: code,
       expire_time: {
         //TODO: Check su tutte le date generate, impostare la timezone corretta
-        lte: new Date(),
+        gte: dataCorrente
+        //lte: dataCorrente.toLocaleString("it-IT", opzioniFusoOrario),
       },
     },
   });
 
   if (user) {
-    //OK
+    return {
+        status: "Success",
+        message: "Authorization completed successfully.",
+        response: user.id,
+      };
   } else {
     if (first_access) {
-      // Codice sbagliato
-    } else {
-      // Sessione scaduta
+      return {
+        status: "Error",
+        message: "The verification code you entered is incorrect.",
+        response: null,
+      };
+    } else {            
+      return {
+        status: "Error",
+        message: "Your session has expired. Please request a new verification code.",
+        response: null,
+      };
     }
   }
 
-  // // resettiamo codice e expire_time a null
-  // await prisma.user.update({
-  //   where: { id: user.id },
-  //   data: { last_code: null, expire_time: null },
-  // });
-
-  // return { message: "Autenticazione OK", userId: user.id };
+   
 }

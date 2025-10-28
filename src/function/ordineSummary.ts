@@ -1,7 +1,29 @@
 import { PrismaClient } from "@prisma/client";
+import { auth2 } from "./auth2.js";
+
 const prisma = new PrismaClient();
 
-export async function ordineSummary(userId: number, orderId: number) {
+
+//TODO: Dichiarare interface della risposta
+interface ReturnMessage {
+  status: "Error" | "Success";
+  message: string;
+  response: string | null;
+}
+
+
+export async function ordineSummary(userId: number, orderId: number, phone: string, code: string) {
+
+  const checkExpirationTime = await auth2(phone, code, false);
+  
+  if(checkExpirationTime.status==="Error") {
+    return {
+      status: "Error",
+      message: "Your session has expired. Please log in again.",
+      response: null,
+    }
+  }
+
   const order = await prisma.order.findFirst({
     where: { id: orderId, userId },
     include: {
@@ -9,18 +31,18 @@ export async function ordineSummary(userId: number, orderId: number) {
     },
   });
 
-  if (!order) throw new Error("Ordine non trovato");
-
-  // creo array dei prodotti
-  const items = order.orderLists.map((ol: any) => ({
-    nome: ol.product.nome,   
-    quantita: ol.quantita,   
-    prezzo: ol.costo,        
-  }));
+  if(!order) {
+    return {
+      status: "Error",
+      message: "No order found.",
+      response: null,
+    }
+  }
 
   return {
-    orderId: order.id,      
-    costo_totale: order.costo, 
-    items
-  };
+    status: "Success",
+    message: "Order found.",
+    response: order,
+  }
+
 }

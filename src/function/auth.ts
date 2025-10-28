@@ -4,11 +4,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const prisma = new PrismaClient();
+// per fuso orario corretto
+const dataExpireCode = Date.now() + 1000 * 60 * Number(process.env.SESSION_TIME);
+const opzioniFusoOrario = { timeZone: "Europe/Rome" };
 
 // Interfaccia del messaggio di risposta
 interface ReturnMessage {
   status: "Error" | "Success";
   message: string;
+  data: number | null;
 }
 
 /**
@@ -71,14 +75,15 @@ export async function auth(phone: string): Promise<ReturnMessage> {
       return {
         status: "Error",
         message: "No user with that phone number was found",
+        data: null
       };
 
     const code = String(Math.floor(100000 + Math.random() * 900000));
-    const expireTime = new Date(
-      Date.now() + 1000 * 60 * Number(process.env.SESSION_TIME)
-    );
+    const expireTime = new Date(Date.now() + 1000 * 60 * Number(process.env.SESSION_TIME)).toISOString();
+    // const expireTime = new Date(dataExpireCode).toLocaleString("it-IT", opzioniFusoOrario);
 
-    // Genero nuovo codice e data di scadenza sessione
+    // Genero nuovo codice e data di scadenza sess
+    // ione
     await prisma.user.update({
       where: { id: user.id },
       data: { last_code: code, expire_time: expireTime },
@@ -113,18 +118,21 @@ export async function auth(phone: string): Promise<ReturnMessage> {
         status: "Error",
         message:
           "We were unable to send you an email, check wether your email is correct or try later, might be a problem on our side",
+        data: null
       };
     }
 
     return {
       status: "Success",
       message: "Code generated successfully, check your email inbox",
+      data: user.id
     };
   } catch (err) {
     console.error("Errore generico", err);
     return {
       status: "Error",
       message: "We are having issues on our side, try later",
+      data: null
     };
   }
 }

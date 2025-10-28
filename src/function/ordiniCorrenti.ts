@@ -1,7 +1,29 @@
 import { PrismaClient } from "@prisma/client";
+import { auth2 } from "./auth2.js";
+
 const prisma = new PrismaClient();
 
-async function ordiniCorrenti(userId: number) {
+
+//TODO: Dichiarare interface della risposta
+interface ReturnMessage {
+  status: "Error" | "Success";
+  message: string;
+  response: string | null;
+}
+
+
+export async function ordiniCorrenti(userId: number, phone: string, code: string) {
+
+  const checkExpirationTime = await auth2(phone, code, false);
+  
+  if(checkExpirationTime.status==="Error") {
+    return {
+      status: "Error",
+      message: "Your session has expired. Please log in again.",
+      response: null,
+    }
+  }
+
   const ordini = await prisma.order.findMany({
     where: {
       userId: userId,
@@ -24,23 +46,19 @@ async function ordiniCorrenti(userId: number) {
     }
   });
 
-  if (ordini.length === 0) {
-    throw new Error("Non hai ordini in corso");
+  if(ordini.length === 0)
+  {
+    return {
+      status: "Error",
+      message: "No orders found.",
+      response: null,
+    }
   }
 
-  return ordini.map(ordine => ({
-    orderId: ordine.id,
-    stato: ordine.status.descrizione,
-    data_partenza: ordine.data_partenza.toLocaleDateString('it-IT'),
-    data_consegna: ordine.data_consegna ? ordine.data_consegna.toLocaleDateString('it-IT') : 'Da definire',
-    spedizione: ordine.spedizione,
-    costo_totale: ordine.costo,
-    items: ordine.orderLists.map(item => ({
-      nome: item.product.nome,
-      quantita: item.quantita,
-      prezzo: item.costo
-    }))
-  }));
-}
+  return {
+    status: "Success",
+    message: "Orders found.",
+    response: ordini,
+  }
 
-export { ordiniCorrenti };
+}

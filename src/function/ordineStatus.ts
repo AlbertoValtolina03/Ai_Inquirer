@@ -1,32 +1,43 @@
 import { PrismaClient } from "@prisma/client";
+import { auth2 } from "./auth2.js";
 
 const prisma = new PrismaClient();
 
-export async function ordineStatus(userId: number, orderId: number) {
+//TODO: Dichiarare interface della risposta
+interface ReturnMessage {
+  status: "Error" | "Success";
+  message: string;
+  response: string | null;
+}
 
-  const auth2(.., ..);
+export async function ordineStatus(userId: number, orderId: number, phone: string, code: string ) {
 
-  if(auth2.status==="Error") {
-
-    //In inglese
+  const checkExpirationTime = await auth2(phone, code, false);
+  
+  if(checkExpirationTime.status==="Error") {
     return {
       status: "Error",
-      message: "Sessione scaduta"
+      message: "Your session has expired. Please log in again.",
+      response: null,
     }
   }
-
 
   const order = await prisma.order.findFirst({
     where: { id: orderId, userId },
     include: { status: true },   // prendo i dettagli dello status collegato
   });
 
-  if (!order) throw new Error("Ordine non trovato");
+  if(!order) {
+    return {
+      status: "Error",
+      message: "No order found.",
+      response: null,
+    }
+  }
 
   return {
-    orderId: order.id,                  
-    stato: order.status.descrizione,    
-    data_partenza: order.data_partenza, 
-    data_consegna: order.data_consegna ?? "Non disponibile" // se esiste la returno senno metto "Non disponibile"
-  };
+    status: "Success",
+    message: "Order found.",
+    response: order,
+  }
 }
