@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 //TODO: Dichiarare interface della risposta
 
 //TODO: Descrizione TSDoc della funzione
+//TODO: Nell'interface, se first_access è true, il type deve essere Parlante, altrimenti boolean
 export async function auth2(phone: string, code: string, first_access = false) {
   // Se l'utente esiste e si ha il permesso di accedere, ritorno true altrimenti false
   const user = await prisma.user.findUnique({
