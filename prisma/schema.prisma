@@ -13,68 +13,65 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   nome         String
   cognome      String
-  email        String   @unique
-  num_telefono String   @unique
-  last_code    String?  // codice temporaneo per verifica identità
+  email        String    @unique
+  num_telefono String    @unique
+  last_code    String? // codice temporaneo per verifica identità
   expire_time  DateTime? // scadenza codice
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   // Relazioni
-  orders       Order[]
+  orders Order[]
 }
 
-
 model Product {
-  id          Int      @id @default(autoincrement()) // puoi anche usare SKU come stringa unica
-  SKU         String   @unique
+  id          Int     @id @default(autoincrement()) // puoi anche usare SKU come stringa unica
+  SKU         String  @unique
   nome        String
   descrizione String?
   prezzo      Float
-  quantita    Int      @default(0)
+  quantita    Int     @default(0)
 
-  orderLists  OrderList[]
+  orderLists OrderList[]
 }
 
 model Status {
-  id          Int      @id @default(autoincrement())
-  descrizione String   @unique
+  id          Int    @id @default(autoincrement())
+  descrizione String @unique
 
-  orders      Order[]
+  orders Order[]
 }
 
 model Order {
-  id             Int       @id @default(autoincrement())
-  userId         Int
-  spedizione     String
-  costo          Float
-  data_partenza  DateTime
-  data_consegna  DateTime?
-  statusId       Int
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  spedizione    String
+  costo         Float
+  data_partenza DateTime
+  data_consegna DateTime?
+  statusId      Int
 
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relazioni
-  user           User      @relation(fields: [userId], references: [id])
-  status         Status    @relation(fields: [statusId], references: [id])
-  orderLists     OrderList[]
+  user       User        @relation(fields: [userId], references: [id])
+  status     Status      @relation(fields: [statusId], references: [id])
+  orderLists OrderList[]
 }
 
-
 model OrderList {
-  id        Int     @id @default(autoincrement())
+  id        Int   @id @default(autoincrement())
   orderId   Int
   productId Int
   costo     Float
   quantita  Int
 
   // Relazioni
-  order     Order   @relation(fields: [orderId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }

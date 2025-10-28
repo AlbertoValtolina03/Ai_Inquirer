@@ -10,7 +10,7 @@ async function main() {
   console.log("--------------------------------------");
 
   try {
-    const {phone} = await inquirer.prompt([
+    const { phone } = await inquirer.prompt([
       {
         type: "input",
         name: "phone",
@@ -24,10 +24,15 @@ async function main() {
       },
     ]);
 
-    const res1 = await auth(phone);
-    console.log(res1.message);
+    const generatedCode = await auth(phone);
 
-    const {code} = await inquirer.prompt([
+    console.log("Assistente: ", generatedCode);
+
+    //TODO: Se è "Error", deve richiedermelo, un massimo di 3 volte.
+    //TODO: Alla terza, fare "THROW"
+    // if (generatedCode.status === "Error")
+
+    const { code } = await inquirer.prompt([
       {
         type: "input",
         name: "code",
@@ -39,15 +44,19 @@ async function main() {
       },
     ]);
 
-    const res2 = await auth2(phone.trim(), code.trim());
-    console.log(res2.message);
+    const checkCode = await auth2(phone.trim(), code.trim(), true);
+
+    console.log("Assistente: ", checkCode);
+
+    process.exit(0);
+
     const userId = res2.userId;
 
     let continua = true;
     let orderId = "";
-    
+
     while (continua) {
-      const {scelta} = await inquirer.prompt([
+      const { scelta } = await inquirer.prompt([
         {
           type: "list",
           name: "scelta",
@@ -55,7 +64,7 @@ async function main() {
           choices: [
             "Visualizza tutti gli ordini in corso",
             "Controlla un ordine specifico",
-            "Esci"
+            "Esci",
           ],
         },
       ]);
@@ -69,7 +78,7 @@ async function main() {
         try {
           const ordini = await ordiniCorrenti(userId);
           console.log(`\n=== HAI ${ordini.length} ORDINI IN CORSO ===\n`);
-          
+
           ordini.forEach((ordine, index) => {
             console.log(`--- ORDINE #${ordine.orderId} ---`);
             console.log(`Stato: ${ordine.stato}`);
@@ -78,15 +87,17 @@ async function main() {
             console.log(`Indirizzo: ${ordine.spedizione}`);
             console.log(`Costo totale: ${ordine.costo_totale}€`);
             console.log("Prodotti:");
-            ordine.items.forEach((item:any, i:any) => {
-              console.log(`  ${i + 1}. ${item.nome} x${item.quantita} - ${item.prezzo}€`);
+            ordine.items.forEach((item: any, i: any) => {
+              console.log(
+                `  ${i + 1}. ${item.nome} x${item.quantita} - ${item.prezzo}€`
+              );
             });
             if (index < ordini.length - 1) {
               console.log();
             }
           });
 
-          const {dettaglio} = await inquirer.prompt([
+          const { dettaglio } = await inquirer.prompt([
             {
               type: "confirm",
               name: "dettaglio",
@@ -116,7 +127,7 @@ async function main() {
       const orderInput = orderInputAnswer.orderInput;
       orderId = orderInput;
 
-      const {action} = await inquirer.prompt([
+      const { action } = await inquirer.prompt([
         {
           type: "list",
           name: "action",
@@ -139,7 +150,9 @@ async function main() {
           console.log(`Costo totale: ${summary.costo_totale}€`);
           console.log("Prodotti:");
           summary.items.forEach((item: any, i: number) => {
-            console.log(`  ${i + 1}. ${item.nome} x${item.quantita} - ${item.prezzo}€`);
+            console.log(
+              `  ${i + 1}. ${item.nome} x${item.quantita} - ${item.prezzo}€`
+            );
           });
         }
       } catch (err) {
