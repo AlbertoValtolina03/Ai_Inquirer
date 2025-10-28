@@ -54,7 +54,7 @@ interface ReturnMessage {
  *
  * @example
  * ```ts
- * const res = await auth("390123456789");
+ * const res = await auth("3923456789");
  * if (res.status === "Success") {
  *   // Codice generato e inviato correttamente
  * } else {

@@ -28,7 +28,7 @@ interface ReturnMessage {
  *
  * @example
  * ```ts
- * const res = await ordiniCorrenti(1, "390123456789", "123456");
+ * const res = await ordiniCorrenti(1, "3923456789", "123456");
  * if(res.status === "Success") {
  *   console.log(res.response); // Lista ordini attivi
  * } else {

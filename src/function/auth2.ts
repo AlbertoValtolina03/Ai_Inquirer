@@ -33,7 +33,7 @@ interface ReturnMessage {
  *
  * @example
  * ```ts
- * const res = await auth2("390123456789", "123456");
+ * const res = await auth2("3923456789", "123456");
  * if (res.status === "Success") {
  *   console.log("Autenticazione completata per utente:", res.response);
  * } else {

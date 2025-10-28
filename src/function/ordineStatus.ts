@@ -27,7 +27,7 @@ interface ReturnMessage {
  *
  * @example
  * ```ts
- * const res = await ordineStatus(1, 10, "390123456789", "123456");
+ * const res = await ordineStatus(1, 10, "3923456789", "123456");
  * if(res.status === "Success") {
  *   console.log(res.response.status);
  * } else {
