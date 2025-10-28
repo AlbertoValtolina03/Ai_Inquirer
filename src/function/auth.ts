@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const prisma = new PrismaClient();
-// per fuso orario corretto
-const dataExpireCode = Date.now() + 1000 * 60 * Number(process.env.SESSION_TIME);
-const opzioniFusoOrario = { timeZone: "Europe/Rome" };
+// per fuso orario corretto(NON FUNZIONA)
+// const dataExpireCode = Date.now() + 1000 * 60 * Number(process.env.SESSION_TIME);
+// const opzioniFusoOrario = { timeZone: "Europe/Rome" };
 
 // Interfaccia del messaggio di risposta
 interface ReturnMessage {
@@ -80,8 +80,7 @@ export async function auth(phone: string): Promise<ReturnMessage> {
     const expireTime = new Date(Date.now() + 1000 * 60 * Number(process.env.SESSION_TIME)).toISOString();
     // const expireTime = new Date(dataExpireCode).toLocaleString("it-IT", opzioniFusoOrario);
 
-    // Genero nuovo codice e data di scadenza sess
-    // ione
+    // Genero nuovo codice e data di scadenza sessione
     await prisma.user.update({
       where: { id: user.id },
       data: { last_code: code, expire_time: expireTime },

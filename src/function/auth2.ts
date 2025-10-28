@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-// per fuso orario corretto
-const dataCorrente = new Date();
-// const opzioniFusoOrario = { timeZone: "Europe/Rome" }; NON FUNZIONA
+// per fuso orario corretto (NON FUNZIONA)
+// const dataCorrente = new Date();
+// const opzioniFusoOrario = { timeZone: "Europe/Rome" };
 
 //TODO: Dichiarare interface della risposta
 interface ReturnMessage {
@@ -49,7 +49,7 @@ export async function auth2(phone: string, code: string, first_access = false) {
       last_code: code,
       expire_time: {
         //TODO: Check su tutte le date generate, impostare la timezone corretta
-        gte: dataCorrente
+        gte: new Date()
         //lte: dataCorrente.toLocaleString("it-IT", opzioniFusoOrario),
       },
     },
