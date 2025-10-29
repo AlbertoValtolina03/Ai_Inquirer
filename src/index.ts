@@ -5,6 +5,17 @@ import { ordineSummary } from "./function/ordineSummary.js";
 import { ordiniCorrenti } from "./function/ordiniCorrenti.js";
 import inquirer from "inquirer";
 
+/*
+
+TODO: tabella sessione, coin session_id autoincrement, attemps_phone, attemps_code
+
+okay, allora, ritornato id sessione, 
+*/
+
+
+
+
+
 async function main() {
   console.log("Benvenuto nel tuo assistente ordini!");
   console.log("--------------------------------------");
@@ -35,13 +46,12 @@ async function main() {
       //TODO: Alla terza, fare "THROW"
       if (generatedCode.status === "Error"){
         count_generatedCode++
-      }
-      if (generatedCode.status === "Success"){
-        count_generatedCode = 4
+      }else{
+        break
       }
     }
     if (count_generatedCode == 3){
-      throw new Error(" Too many failed attempts. Your session has been temporarily locked for security reasons. Please try again later. ");
+      throw new Error(" Too many failed attempts. We will nedd to generate a new code.");
     }
     
     let code = ""

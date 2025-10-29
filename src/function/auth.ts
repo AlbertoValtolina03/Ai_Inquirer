@@ -83,7 +83,7 @@ export async function auth(phone: string): Promise<ReturnMessage> {
     // Genero nuovo codice e data di scadenza sessione
     await prisma.user.update({
       where: { id: user.id },
-      data: { last_code: code, expire_time: expireTime },
+      data: { last_code: code, expire_time: expireTime},
     });
 
     console.info("Codice generato e inserito");
