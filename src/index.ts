@@ -111,17 +111,18 @@ async function main() {
       } 
       checkCode = await auth2(phone.trim(), code.trim(), true);
       console.log("Assistente: ", checkCode);
-
-
-      if (checkCode.status === "Error") {
-        count_checkCode++;
+      
+      if (checkCode.status === "Error"){
+        count_generatedCode++
+      }else{
+        if (checkCode.response != null)
+        {
+          user_id_volatile = checkCode.response
+          break
+        }
       }
-      if (checkCode.status === "Success" && checkCode.response !== null) {
-        count_checkCode = 4;
-        user_id_volatile = checkCode.response;
-      }
+      
     }
-
     if (count_checkCode == 3) {
       throw new Error(
         "Too many failed attempts. Your session has been temporarily locked for security reasons. Please try again later."
