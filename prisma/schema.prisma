@@ -26,6 +26,7 @@ model User {
 
   // Relazioni
   orders Order[]
+  sessions Session[]
 }
 
 model Product {
@@ -77,22 +78,4 @@ model OrderList {
 }
 
 
-/*
-
-TODO: tabella sessione, coin session_id autoincrement, attemps_phone, attemps_code
-
-okay, allora, ritornato id sessione, 
-*/
-
-model Session {
-  id             Int   @id @default(autoincrement())
-  attemps_phone  Int
-  attemps_code   Int
-  code           Int
-  phone          Int
-  userId         Int
-
-  // Relazioni
-  user   User   @relation(fields: [userId], references: [id])
-}
 

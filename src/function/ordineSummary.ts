@@ -72,15 +72,3 @@ export async function ordineSummary(userId: number, orderId: number, phone: stri
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-

@@ -70,6 +70,7 @@ async function main() {
         },
       },
     ]);
+
     code = response.code.trim();
 
       let checkCode = await auth2(phone.trim(), code.trim(), true);
@@ -78,11 +79,13 @@ async function main() {
       //TODO: Se è "Error", deve richiedermelo, un massimo di 3 volte.
       //TODO: Alla terza, fare "THROW"
       if (checkCode.status === "Error"){
-        count_checkCode++
-      }
-      if (checkCode.status === "Success" && checkCode.response !== null ){
-        count_checkCode = 4
-        user_id_volatile = checkCode.response
+        count_generatedCode++
+      }else{
+        if (checkCode.response != null)
+        {
+          user_id_volatile = checkCode.response
+          break
+        }
       }
     }
     if (count_checkCode == 3){

@@ -10,6 +10,7 @@ async function main() {
       cognome: "Valtolina",
       email: "alberto.valtolina0@gmail.com",
       num_telefono: "3275305690",
+      last_code: "123456"
     },
     {
       nome: "Giulia",
@@ -896,6 +897,7 @@ async function main() {
   console.log(`- ${prodotti.length} prodotti`);
   console.log(`- ${ordini.length} ordini`);
   console.log(`- ${orderList.length} righe di orderList`);
+
 }
 
 main()
