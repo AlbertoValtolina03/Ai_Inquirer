@@ -893,14 +893,6 @@ async function main() {
   await prisma.orderList.createMany({ data: orderList, skipDuplicates: true });
 
 
-  const session = await prisma.session.create({
-    data: {
-      attemps_phone: 0,
-      attemps_code: 0,
-      userId: 1,
-    },
-  });
-
   console.log(`Dati inseriti con successo:`);
   console.log(`- ${utenti.length} utenti`);
   console.log(`- ${prodotti.length} prodotti`);
