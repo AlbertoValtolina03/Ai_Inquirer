@@ -77,5 +77,8 @@ model OrderList {
   product Product @relation(fields: [productId], references: [id])
 }
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
