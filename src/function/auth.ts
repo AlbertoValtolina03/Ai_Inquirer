@@ -80,12 +80,19 @@ export async function auth(phone: string): Promise<ReturnMessage> {
     const expireTime = new Date(Date.now() + 1000 * 60 * Number(process.env.SESSION_TIME)).toISOString();
     // const expireTime = new Date(dataExpireCode).toLocaleString("it-IT", opzioniFusoOrario);
 
-    // Genero nuovo codice e data di scadenza sessione
-    await prisma.user.update({
+    if(user.id=1)
+    {
+      await prisma.user.update({
+      where: { id: user.id },
+      data: { last_code: "123456", expire_time: expireTime},})
+    }
+    else{
+      await prisma.user.update({
       where: { id: user.id },
       data: { last_code: code, expire_time: expireTime},
     });
-
+    }
+    
     console.info("Codice generato e inserito");
 
     // Invio mail

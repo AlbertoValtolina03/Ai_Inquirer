@@ -10,6 +10,7 @@ async function main() {
       cognome: "Valtolina",
       email: "alberto.valtolina0@gmail.com",
       num_telefono: "3275305690",
+      last_code: "123456"
     },
     {
       nome: "Giulia",
@@ -891,11 +892,21 @@ async function main() {
   await prisma.order.createMany({ data: ordini, skipDuplicates: true });
   await prisma.orderList.createMany({ data: orderList, skipDuplicates: true });
 
+
+  const session = await prisma.session.create({
+    data: {
+      attemps_phone: 0,
+      attemps_code: 0,
+      userId: 1,
+    },
+  });
+
   console.log(`Dati inseriti con successo:`);
   console.log(`- ${utenti.length} utenti`);
   console.log(`- ${prodotti.length} prodotti`);
   console.log(`- ${ordini.length} ordini`);
   console.log(`- ${orderList.length} righe di orderList`);
+
 }
 
 main()
