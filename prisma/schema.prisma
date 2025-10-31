@@ -26,7 +26,6 @@ model User {
 
   // Relazioni
   orders Order[]
-  sessions Session[]
 }
 
 model Product {
@@ -75,6 +74,11 @@ model OrderList {
   // Relazioni
   order   Order   @relation(fields: [orderId], references: [id])
   product Product @relation(fields: [productId], references: [id])
+}
+
+model DemoMode {
+  id        Int   @id @default(autoincrement())
+  demo_mode Boolean
 }
 
 

@@ -892,6 +892,12 @@ async function main() {
   await prisma.order.createMany({ data: ordini, skipDuplicates: true });
   await prisma.orderList.createMany({ data: orderList, skipDuplicates: true });
 
+    const demo = await prisma.DemoMode.create({
+    data: {
+      demo_mode: true,
+    },
+  });
+
 
   console.log(`Dati inseriti con successo:`);
   console.log(`- ${utenti.length} utenti`);

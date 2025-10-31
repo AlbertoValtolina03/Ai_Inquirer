@@ -3,6 +3,7 @@ import { auth2 } from "./function/auth2.js";
 import { ordineStatus } from "./function/ordineStatus.js";
 import { ordineSummary } from "./function/ordineSummary.js";
 import { ordiniCorrenti } from "./function/ordiniCorrenti.js";
+import { isDemoMode } from "./function/isDemoMode.js";
 import inquirer from "inquirer";
 import readline from "readline";
 
@@ -16,25 +17,10 @@ async function main() {
   console.log("--------------------------------------");
 
   try {
-    let demoMode = false;
-
-    // ---------------------------
-    // LISTENER TASTO PER DEMO
-    // ---------------------------
-    readline.emitKeypressEvents(process.stdin);
-    if (process.stdin.isTTY) process.stdin.setRawMode(true);
-
-    process.stdin.on("keypress", (str, key) => {
-      if (key && key.name === "d") {  // tasto "d" per demo
-        demoMode = true;
-        console.log("\n[Modalità demo attivata]"); // da commentare
-      }
-
-      // Per uscire con Ctrl+C
-      if (key && key.ctrl && key.name === "c") {
-        process.exit();
-      }
-    });
+    let demoMode = await isDemoMode(); // true o false a seconda del flag nel DB
+    if (demoMode) {
+      console.log("\n[Modalità demo attivata]");
+    }
 
     // ---------------------------
     // LOGIN NUMERO/CODICE
