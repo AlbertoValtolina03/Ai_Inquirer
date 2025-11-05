@@ -113,7 +113,7 @@ async function main() {
       throw new Error(
         "Too many failed attempts. Your session has been temporarily locked for security reasons. Please try again later."
       );
-    
+    }
     const userId = user_id_volatile;
 
     if (userId) {
