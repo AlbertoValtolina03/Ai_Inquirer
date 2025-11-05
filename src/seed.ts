@@ -892,9 +892,9 @@ async function main() {
   await prisma.order.createMany({ data: ordini, skipDuplicates: true });
   await prisma.orderList.createMany({ data: orderList, skipDuplicates: true });
 
-    const demo = await prisma.DemoMode.create({
+    const demo = await prisma.demoMode.create({
     data: {
-      demo_mode: true,
+      demo_mode: false,
     },
   });
 

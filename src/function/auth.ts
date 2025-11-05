@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { isDemoMode } from "./isDemoMode.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
@@ -76,15 +77,18 @@ export async function auth(phone: string): Promise<ReturnMessage> {
         message: "No user with that phone number was found",
       };
 
-    const code = String(Math.floor(100000 + Math.random() * 900000));
     const expireTime = new Date(Date.now() + 1000 * 60 * Number(process.env.SESSION_TIME)).toISOString();
     // const expireTime = new Date(dataExpireCode).toLocaleString("it-IT", opzioniFusoOrario);
 
-    if(user.id=1)
-    {
+    let code = String(Math.floor(100000 + Math.random() * 900000));
+
+    // da capire se si vuole ricevre mail con 123456, oppure mail con codice diverso ma che in realtà è sempre 123456
+    let demoMode = await isDemoMode(); 
+    if (demoMode) {
       await prisma.user.update({
       where: { id: user.id },
-      data: { last_code: "123456", expire_time: expireTime},})
+      data: { last_code: "123456", expire_time: expireTime},
+    });
     }
     else{
       await prisma.user.update({
@@ -92,7 +96,6 @@ export async function auth(phone: string): Promise<ReturnMessage> {
       data: { last_code: code, expire_time: expireTime},
     });
     }
-    
     console.info("Codice generato e inserito");
 
     // Invio mail

@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
  */
 export async function isDemoMode(): Promise<boolean> {
   try {
-    const demo = await prisma.DemoMode.findUnique({
+    const demo = await prisma.demoMode.findUnique({
       where: { id: 1 }, // assume un solo record per la demo
     });
 
