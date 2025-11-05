@@ -68,25 +68,3 @@ export async function ordineStatus(userId: number, orderId: number, phone: strin
     response: order,
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

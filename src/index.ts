@@ -65,7 +65,7 @@ async function main() {
 
     if (count_generatedCode == 3) {
       throw new Error(
-        "Too many failed attempts. We will need to generate a new code."
+        "Too many failed attempts."
       );
     }
 
@@ -113,8 +113,7 @@ async function main() {
       throw new Error(
         "Too many failed attempts. Your session has been temporarily locked for security reasons. Please try again later."
       );
-    }
-
+    
     const userId = user_id_volatile;
 
     if (userId) {

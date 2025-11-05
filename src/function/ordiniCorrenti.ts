@@ -88,5 +88,3 @@ export async function ordiniCorrenti(userId: number, phone: string, code: string
   }
 
 }
-
-
